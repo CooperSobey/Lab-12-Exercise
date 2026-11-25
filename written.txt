@@ -1,5 +1,16 @@
 ﻿Q3. What happens to the bounding boxes with update + fullRefit?
+    When we call full refit on the bvh, our bounding boxes update to move with the balls.
+    As in, as the balls move the bounding box both resizes to fit if multiple balls are moving
+    in different directions, or follows the ball as its edge is pushed in the direction the ball
+    is moving.
 
 Q4. What happens with reset (rebuild every frame) instead?
+    With reset, as the balls move, the bounding boxes are redrawn around the balls.
+    Unlike with rebuild that resized the bounding boxes but always held/were affected by the same balls,
+    reset redraws the boxes causing different balls to be grouped into one bounding box and the boxes are constantly
+    changing rather than just growing, shrinking, and moving. This is because the parent-child pairing change and the bounding boxes change with that.
 
 Q5. Why are some circles drawn with their sides cut off?
+    While I couldn't see the circles drawn with their sides cut off myself, my guess is that its because if a ball crosses
+    a bounding box before the box properly updates around it, the part of the ball that crossed doesn't get drawn as its seen
+    as !(*this & other).empty() is true.
